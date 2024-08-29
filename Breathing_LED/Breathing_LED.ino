@@ -1,5 +1,5 @@
 // Project 4
-int ledPin = 10;
+int ledPin = 9;
 void setup() {
   pinMode(ledPin,OUTPUT);
 }

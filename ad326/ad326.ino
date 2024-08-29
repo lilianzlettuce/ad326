@@ -65,7 +65,7 @@ const int light4 = 6;
 const int light5 = 7;
 const int lights[] = {greenLight, yellowLight, redLight, light4, light5};
 
-const int heartPin = 8;
+const int heartPin = 9;
 
 // rgb light
 /*const int rgbRed = 10;
@@ -131,10 +131,10 @@ void loop() {
     if (heartLuminosity == 0) {
       tone(speaker, NOTE_A7, 100);
     }
-    if (heartRate > 100) {
+    /*if (heartRate > 100) {
       heartRate--;
       heartInterval = heartRate / (255 / 5);
-    }
+    }*/
   }
 
   /* switch stuff */
