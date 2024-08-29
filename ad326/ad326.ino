@@ -67,6 +67,11 @@ const int lights[] = {greenLight, yellowLight, redLight, light4, light5};
 
 const int heartPin = 9;
 
+// wall buttons
+const int wallBtn1 = 10;
+const int wallBtn2 = 11;
+const int wallBtn3 = 12;
+
 // rgb light
 /*const int rgbRed = 10;
 const int rgbBlue = 11;
@@ -99,13 +104,14 @@ void setup() {
   pinMode(light4, OUTPUT);
   pinMode(light5, OUTPUT);
 
-  digitalWrite(light5, HIGH);
-
   pinMode(heartPin,OUTPUT);
   pinMode(speaker, OUTPUT);
 
-  // declare the switch pin as an input
+  // declare the switch pins as an input
   pinMode(button, INPUT);
+  pinMode(wallBtn1, INPUT);
+  pinMode(wallBtn2, INPUT);
+  pinMode(wallBtn3, INPUT);
 }
 
 void loop() {
@@ -139,7 +145,6 @@ void loop() {
 
   /* switch stuff */
   // read the value of the switch
-  // digitalRead() checks to see if there is voltage on the pin or not
   int switchstate = digitalRead(button);
 
   // Test button switch state
@@ -174,6 +179,16 @@ void loop() {
       digitalWrite(yellowLight, redState);
       digitalWrite(light4, redState);
     } 
+  }
+
+  // wall btn 2
+  int wallBtnState1 = digitalRead(wallBtn1);
+  int wallBtnState2 = digitalRead(wallBtn2);
+  int wallBtnState3 = digitalRead(wallBtn3);
+  if (wallBtnState1 == HIGH || wallBtnState2 == HIGH || wallBtnState3 == HIGH) {
+    // If button pressed, speed up heart rate
+    heartRate -= 200;
+    heartInterval = heartRate / (255 / 5);
   }
 }
 
