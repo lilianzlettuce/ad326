@@ -61,11 +61,12 @@ const int button = 2;
 const int greenLight = 3;
 const int yellowLight = 4;
 const int redLight = 5;
-const int light4 = 6;
-const int light5 = 7;
-const int lights[] = {greenLight, yellowLight, redLight, light4, light5};
+const int light4 = 7;
+const int light5 = 6;
 
 const int heartPin = 9;
+
+const int lights[] = {greenLight, redLight, yellowLight, heartPin, light4};
 
 // wall buttons
 const int wallBtn1 = 10;
@@ -137,10 +138,10 @@ void loop() {
     if (heartLuminosity == 0) {
       tone(speaker, NOTE_A7, 100);
     }
-    /*if (heartRate > 100) {
+    if (heartRate > 10) {
       heartRate--;
       heartInterval = heartRate / (255 / 5);
-    }*/
+    }
   }
 
   /* switch stuff */
@@ -151,12 +152,16 @@ void loop() {
   if(switchstate == HIGH){
     // If button pressed, play tune
     playTune();
-    //alarm();
+    analogWrite(heartPin, 250);
+    tone(speaker, NOTE_A7, 6000);
+    heartRate = 100000000;
+    heartInterval = heartRate / (255 / 5);
+    analogWrite(heartPin, 0);
   } else {
     // Idle state when button isn't pressed
     // check to see if it's time to blink the LED
 
-    if (currTime - previousMillis >= interval) {
+    /*if (currTime - previousMillis >= interval) {
       // save the last time you blinked the LED
       previousMillis = currTime;
 
@@ -178,16 +183,31 @@ void loop() {
 
       digitalWrite(yellowLight, redState);
       digitalWrite(light4, redState);
-    } 
+    } */
   }
 
   // wall btn 2
   int wallBtnState1 = digitalRead(wallBtn1);
   int wallBtnState2 = digitalRead(wallBtn2);
   int wallBtnState3 = digitalRead(wallBtn3);
-  if (wallBtnState1 == HIGH || wallBtnState2 == HIGH || wallBtnState3 == HIGH) {
+  /*if (wallBtnState1 == HIGH || wallBtnState2 == HIGH || wallBtnState3 == HIGH) {
     // If button pressed, speed up heart rate
     heartRate -= 200;
+    heartInterval = heartRate / (255 / 5);
+  }*/
+  if (wallBtnState1 == HIGH) {
+    // If button pressed, speed up heart rate
+    heartRate = 400;
+    heartInterval = heartRate / (255 / 5);
+  }
+  if (wallBtnState2 == HIGH) {
+    // If button pressed, speed up heart rate
+    heartRate = 700;
+    heartInterval = heartRate / (255 / 5);
+  }
+  if (wallBtnState3 == HIGH) {
+    // If button pressed, speed up heart rate
+    heartRate = 100;
     heartInterval = heartRate / (255 / 5);
   }
 }
