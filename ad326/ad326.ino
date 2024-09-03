@@ -94,7 +94,7 @@ const long interval = 250;  // interval at which to blink (milliseconds)
 unsigned long heartLastUpdate = 0;  // will store last time LED was updated
 double heartRate = 1000;
 double heartInterval = heartRate / (255 / 5);
-int heartLuminosity = 250; // current brightness
+int heartLuminosity = 255; // current brightness
 int heartLumIncr = -5; // increment by
 
 void setup() {
@@ -103,10 +103,15 @@ void setup() {
   pinMode(yellowLight, OUTPUT);
   pinMode(redLight, OUTPUT);
   pinMode(light4, OUTPUT);
-  pinMode(light5, OUTPUT);
+  //pinMode(light5, OUTPUT);
 
   pinMode(heartPin,OUTPUT);
   pinMode(speaker, OUTPUT);
+
+  /*digitalWrite(greenLight, HIGH);
+  digitalWrite(yellowLight, HIGH);
+  digitalWrite(redLight, HIGH);
+  digitalWrite(light4, HIGH);*/
 
   // declare the switch pins as an input
   pinMode(button, INPUT);
@@ -152,7 +157,7 @@ void loop() {
   if(switchstate == HIGH){
     // If button pressed, play tune
     playTune();
-    analogWrite(heartPin, 250);
+    analogWrite(heartPin, 255);
     tone(speaker, NOTE_A7, 6000);
     heartRate = 100000000;
     heartInterval = heartRate / (255 / 5);
@@ -179,7 +184,7 @@ void loop() {
       // set the LED with the ledState of the variable:
       digitalWrite(greenLight, ledState);
       digitalWrite(redLight, ledState);
-      digitalWrite(light5, ledState);
+      //digitalWrite(light5, ledState);
 
       digitalWrite(yellowLight, redState);
       digitalWrite(light4, redState);
@@ -190,20 +195,26 @@ void loop() {
   int wallBtnState1 = digitalRead(wallBtn1);
   int wallBtnState2 = digitalRead(wallBtn2);
   int wallBtnState3 = digitalRead(wallBtn3);
-  /*if (wallBtnState1 == HIGH || wallBtnState2 == HIGH || wallBtnState3 == HIGH) {
-    // If button pressed, speed up heart rate
-    heartRate -= 200;
-    heartInterval = heartRate / (255 / 5);
-  }*/
   if (wallBtnState1 == HIGH) {
     // If button pressed, speed up heart rate
     heartRate = 400;
     heartInterval = heartRate / (255 / 5);
+
+    // Update buttons
+    analogWrite(greenLight, 0);
+    analogWrite(yellowLight, random(256));
+    analogWrite(redLight, random(256));
+    analogWrite(light4, random(256));
   }
   if (wallBtnState2 == HIGH) {
     // If button pressed, speed up heart rate
     heartRate = 700;
     heartInterval = heartRate / (255 / 5);
+
+    // Update buttons
+    analogWrite(greenLight, 255);
+    analogWrite(yellowLight, 255);
+    analogWrite(redLight, 255);
   }
   if (wallBtnState3 == HIGH) {
     // If button pressed, speed up heart rate
