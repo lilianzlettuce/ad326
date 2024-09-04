@@ -108,6 +108,8 @@ void setup() {
   pinMode(heartPin,OUTPUT);
   pinMode(speaker, OUTPUT);
 
+  analogWrite(greenLight, 255);
+
   /*digitalWrite(greenLight, HIGH);
   digitalWrite(yellowLight, HIGH);
   digitalWrite(redLight, HIGH);
@@ -119,6 +121,8 @@ void setup() {
   pinMode(wallBtn2, INPUT);
   pinMode(wallBtn3, INPUT);
 }
+
+int countDownStarted = false;
 
 void loop() {
   // current time
@@ -132,7 +136,7 @@ void loop() {
     heartLuminosity += heartLumIncr;
     analogWrite(heartPin, heartLuminosity);
 
-    // update increment if necessary
+    // update light increment if necessary
     if (heartLuminosity > 250) {
       heartLumIncr = -5;
     } else if (heartLuminosity == 0) {
@@ -143,7 +147,9 @@ void loop() {
     if (heartLuminosity == 0) {
       tone(speaker, NOTE_A7, 100);
     }
-    if (heartRate > 10) {
+
+    // Speed up pulse rate if count down started 
+    if (countDownStarted && heartRate > 10) {
       heartRate--;
       heartInterval = heartRate / (255 / 5);
     }
@@ -197,8 +203,8 @@ void loop() {
   int wallBtnState3 = digitalRead(wallBtn3);
   if (wallBtnState1 == HIGH) {
     // If button pressed, speed up heart rate
-    heartRate = 400;
-    heartInterval = heartRate / (255 / 5);
+    /*heartRate = 400;
+    heartInterval = heartRate / (255 / 5);*/
 
     // Update buttons
     analogWrite(greenLight, 0);
@@ -208,18 +214,27 @@ void loop() {
   }
   if (wallBtnState2 == HIGH) {
     // If button pressed, speed up heart rate
-    heartRate = 700;
-    heartInterval = heartRate / (255 / 5);
+    /*heartRate = 700;
+    heartInterval = heartRate / (255 / 5);*/
 
     // Update buttons
-    analogWrite(greenLight, 255);
-    analogWrite(yellowLight, 255);
-    analogWrite(redLight, 255);
+    analogWrite(greenLight, random(256));
+    analogWrite(yellowLight, 0);
+    analogWrite(redLight, random(256));
+    analogWrite(light4, random(256));
+
+    countDownStarted = true;
   }
   if (wallBtnState3 == HIGH) {
     // If button pressed, speed up heart rate
-    heartRate = 100;
-    heartInterval = heartRate / (255 / 5);
+    /*heartRate = 100;
+    heartInterval = heartRate / (255 / 5);*/
+
+    // Update buttons
+    analogWrite(greenLight, random(256));
+    analogWrite(yellowLight, random(256));
+    analogWrite(redLight, 0);
+    analogWrite(light4, 0);
   }
 }
 
