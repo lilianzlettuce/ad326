@@ -11,8 +11,11 @@
 
 // rgb light
 const int rgbRed = 10;
-const int rgbBlue = 12;
 const int rgbGreen = 11;
+const int rgbBlue = 12;
+
+// normal light
+const int light1 = 13;
 
 void setup() {
  // Start off with the LED off.
@@ -30,16 +33,15 @@ void loop() {
   
  // Choose the colours to increment and decrement.
  for (int decColor = 0; decColor < 3; decColor += 1) {
-  
-   int incColor = decColor == 2 ? 0 : decColor + 1;
-   
-   // cross-fade the two colours.
-   for(int i = 0; i < 255; i += 1) {
-     rgbColor[decColor] -= 1;
-     rgbColor[incColor] += 1;
-     setColorRgb(rgbColor[0], rgbColor[1], rgbColor[2]);
-     delay(100);
-   }
+    int incColor = (decColor == 2) ? 0 : decColor + 1;
+    
+    // cross-fade the two colours.
+    for(int i = 0; i < 255; i += 1) {
+      rgbColor[decColor] -= 1;
+      rgbColor[incColor] += 1;
+      setColorRgb(rgbColor[0], rgbColor[1], rgbColor[2]);
+      delay(100);
+    }
  }
 }
 void setColorRgb(unsigned int red, unsigned int green, unsigned int blue) {
