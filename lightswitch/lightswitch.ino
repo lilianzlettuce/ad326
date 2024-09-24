@@ -8,7 +8,7 @@
 */
 
 // constants won't change. They're used here to set pin numbers:
-const int switchPin = 9;  // the number of the lightswitch pin
+const int switchPin = 13;  // the number of the lightswitch pin
 const int ledPin = 5;    // the number of the LED pin
 
 // variables will change:

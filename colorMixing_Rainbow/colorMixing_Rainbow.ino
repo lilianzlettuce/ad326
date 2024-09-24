@@ -14,10 +14,6 @@ const int rgbRed = 10;
 const int rgbGreen = 11;
 const int rgbBlue = 12;
 
-const int rgbRed = 10;
-const int rgbGreen = 11;
-const int rgbBlue = 12;
-
 // normal light
 const int light1 = 13;
 
@@ -30,6 +26,9 @@ int lumIncr1 = -5; // increment by
 
 void setup() {
   // Start off with the LED off.
+  pinMode(rgbRed,OUTPUT);
+  pinMode(rgbGreen,OUTPUT);
+  pinMode(rgbBlue,OUTPUT);
   setColorRgb(0,0,0);
 
   pinMode(light1, OUTPUT);
