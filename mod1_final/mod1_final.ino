@@ -59,31 +59,41 @@ void setup() {
 
 // Timing for ledPin pulse
 unsigned long lastUpdate1 = 0;  // will store last time LED was updated
-double rate1 = 1000;
+const double startRate = 400; // starting pulse rate
+double rate1 = startRate; // current pulse rate
 double interval1 = rate1 / (255 / 5);
 int luminosity1 = 255; // current brightness
 int lumIncr1 = -5; // increment by
+double maxLum = 250; // maximum brightness
+
+// Keep track if plant has died
+bool dead = true; 
+
 
 void loop() {
 
   // read state of light switch, change rgb led 
   int lightSwitchState = digitalRead(lightSwitch);
   if (lightSwitchState == HIGH) {
+    // Turn on fake plant
     setColorRgb(254, 0, 104);
   } else {
+    // Turn off fake plant
     setColorRgb(0, 0, 0);
+
+    // Reset real plant pulse rate
+    rate1 = startRate + 200;
+    interval1 = rate1 / (255 / 5);
   }
 
   // read the state of the touch sensor into a local variable:
   int touchState = digitalRead(touchPin);
 
-  // if a touch event is detected turn the LED on:
-  /*if (touchState == 1) {
-    digitalWrite(ledPin, HIGH);
-  // if not, turn off the LED
-  } else {
-    digitalWrite(ledPin, LOW);
-  }*/
+  // if a touch event is detected, revive plant
+  if (touchState == HIGH) {
+    //digitalWrite(ledPin, HIGH);
+    dead = false;
+  }
 
 
   /* Breathing light cycle */
@@ -91,7 +101,7 @@ void loop() {
   // current time
   unsigned long currTime = millis();
 
-  if (currTime - lastUpdate1 >= interval1) {
+  if (!dead && currTime - lastUpdate1 >= interval1) {
     // save last heart update
     lastUpdate1 = currTime;
 
@@ -99,21 +109,25 @@ void loop() {
     luminosity1 += lumIncr1;
 
     // update light increment if necessary
-    if (luminosity1 > 250) {
-      luminosity1 = 255;
+    if (luminosity1 > maxLum) {
       lumIncr1 = -5;
     } else if (luminosity1 <= 0) {
       luminosity1 = 0;
       lumIncr1 = 5;
+
+      // Burn out at some point
+      if (rate1 > 1500) {
+        dead = true;
+      }
     }
 
     analogWrite(ledPin, luminosity1);
 
     // Slow down pulse rate if light switch on
-    /*if (countDownStarted && heartRate > 10) {
-      heartRate--;
-      heartInterval = heartRate / (255 / 5);
-    }*/
+    if (lightSwitchState == HIGH) {
+      rate1 *= 1.002;
+      interval1 = rate1 / (255 / 5);
+    }
   }
 
 
