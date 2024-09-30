@@ -69,6 +69,11 @@ double maxLum = 250; // maximum brightness
 // Keep track if plant has died
 bool dead = true; 
 
+// Timing for 8-segment LED
+unsigned long lastUpdate2 = 0;  // will store last time LED was updated
+double rate2 = 100; // current pulse rate
+double interval2 = rate2 ;// / (255 / 5);
+int segNum = 0; // current displayed number
 
 void loop() {
 
@@ -130,14 +135,15 @@ void loop() {
     }
   }
 
+  // 8-segment LED cycle
+  if (lightSwitchState == HIGH && currTime - lastUpdate2 >= interval2) {
+    // save last heart update
+    lastUpdate2 = currTime;
 
-
-
-  displayNum(8);
-  /*for (int j = 0; j <= 9 ; j++){
-    displayNum(j); // call displayNum() function to display 0-9.
-    delay(500);
-  }*/
+    // update to new display
+    segNum = (segNum + 1) % (sizeof(number) / sizeof(number[0]));
+    displayNum(segNum);
+  }
 }
 
 // Change RGB LED color
