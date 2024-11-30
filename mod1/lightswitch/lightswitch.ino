@@ -10,7 +10,6 @@
 const int switchPin = 5;  // the number of the lightswitch pin
 const int ledPin = 13;    // the number of the LED pin
 
-// variables will change:
 int switchState = 0;  // variable for reading the lightswitch status
 
 void setup() {
