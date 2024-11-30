@@ -1,5 +1,5 @@
 // Code to read an analog value, in this case from a potentiometer and write it to the serial port
-int input1 = A5;
+int input1 = A0;
 int input2 = A4;
 
 void setup() {
@@ -13,7 +13,6 @@ void loop() {
   int reading1 = analogRead(input1);
   int rateVal = map(reading1, 0, 1023, 0, 255);
   
-  //Serial.write(rateVal); 
   // Send the value
   Serial.print("RATE");
   Serial.println(rateVal);

@@ -19,9 +19,13 @@ void loop() {
   int analog0 = analogRead(A0);
   int analog1 = analogRead(A1);
 
+  // test for tv plug
+  //int analog5 = analogRead(A5);
+
   // print the sensor reading so you know its range
   Serial.println(analog0);
   Serial.println(analog1);
+  //Serial.println(analog5);
 
   //int max = map(analog0, 0, 1023, 0, 5000);
   /*int max = map(analog0, 0, 40, 0, 5000);
