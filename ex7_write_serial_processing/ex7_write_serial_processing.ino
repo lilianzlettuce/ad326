@@ -13,6 +13,13 @@ const int ledPin = 13;    // box LED
 
 int switchState = 0;  // switch status
 
+// Struct for sending data through serial
+struct Data {
+  uint8_t id;    // 1 byte
+  uint8_t value; // 1 byte
+};
+Data data;
+
 void setup() {
   // Initialize LED as output
   pinMode(ledPin, OUTPUT);
@@ -27,8 +34,11 @@ void setup() {
 void loop() {
   // Read the state of the switch
   switchState = digitalRead(switchPin);
-  Serial.print("SWITCH");
-  Serial.println(switchState);
+  /*Serial.print("SWITCH");
+  Serial.println(switchState);*/
+  data.id = 5;
+  data.value = switchState;
+  Serial.write((uint8_t *) &data, sizeof(data));
 
   // Update LED based on switch state
   if (switchState == HIGH) {
@@ -39,11 +49,15 @@ void loop() {
     digitalWrite(ledPin, LOW);
   }
 
-  //Serial.println(analogRead(input1));
-
   // Loop through all analog inputs
   for (int i = 0; i < numInputs; i++) {
     // Read each input, put in range 0 to 255
+    /*int reading = analogRead(analogInputs[i]);
+    data.id = i;
+    data.value = map(reading, 0, 1023, 0, 255);
+
+    Serial.write((uint8_t *) &data, sizeof(data));*/
+
     int reading = analogRead(analogInputs[i]);
     int val = map(reading, 0, 1023, 0, 255);
 

@@ -3,12 +3,6 @@ const int buzzerPin2 = 10;
 const int touchPin = 12;
 const int ledPin = 13;
 
-struct DataPacket {
-  uint8_t id;    // 1 byte
-  int16_t value; // 2 bytes
-};
-DataPacket packet;
-
 void setup() {
   Serial.begin(9600);
 
