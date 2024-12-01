@@ -56,18 +56,5 @@ void loop() {
     Serial.println(val);
   }
 
-  // Read analog inputs, put in range 0 to 255
-  /*int reading0 = analogRead(input0);
-  int val0 = map(reading0, 0, 1023, 0, 255);
-
-  int reading1 = analogRead(input1);
-  int val1 = map(reading1, 0, 1023, 0, 255);
-  
-  // Send read values
-  Serial.print("RATE");
-  Serial.println(val0);
-  Serial.print("ROT");
-  Serial.println(val1);*/
-
   delay(100); // give the A2D converter a moment to catch up
 }

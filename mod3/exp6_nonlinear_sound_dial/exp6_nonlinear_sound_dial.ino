@@ -3,6 +3,12 @@ const int buzzerPin2 = 10;
 const int touchPin = 12;
 const int ledPin = 13;
 
+struct DataPacket {
+  uint8_t id;    // 1 byte
+  int16_t value; // 2 bytes
+};
+DataPacket packet;
+
 void setup() {
   Serial.begin(9600);
 
@@ -13,19 +19,21 @@ void setup() {
 void loop() {
   // read state of touch sensor
   int touchReading = digitalRead(touchPin);
-  Serial.print(touchReading);
+  //Serial.print(touchReading);
 
   // read analog sensors
   int analog0 = analogRead(A0);
   int analog1 = analogRead(A1);
 
   // test for tv plug
-  //int analog5 = analogRead(A5);
+  int analog5 = analogRead(A5);
 
   // print the sensor reading so you know its range
+  Serial.print("A0");
   Serial.println(analog0);
-  Serial.println(analog1);
-  //Serial.println(analog5);
+  //Serial.println(analog1);
+  Serial.print("A5");
+  Serial.println(analog5);
 
   //int max = map(analog0, 0, 1023, 0, 5000);
   /*int max = map(analog0, 0, 40, 0, 5000);
