@@ -34,11 +34,8 @@ void setup() {
 void loop() {
   // Read the state of the switch
   switchState = digitalRead(switchPin);
-  /*Serial.print("SWITCH");
-  Serial.println(switchState);*/
-  data.id = 5;
-  data.value = switchState;
-  Serial.write((uint8_t *) &data, sizeof(data));
+  Serial.print("SVAL0_");
+  Serial.println(switchState);
 
   // Update LED based on switch state
   if (switchState == HIGH) {
