@@ -49,12 +49,6 @@ void loop() {
   // Loop through all analog inputs
   for (int i = 0; i < numInputs; i++) {
     // Read each input, put in range 0 to 255
-    /*int reading = analogRead(analogInputs[i]);
-    data.id = i;
-    data.value = map(reading, 0, 1023, 0, 255);
-
-    Serial.write((uint8_t *) &data, sizeof(data));*/
-
     int reading = analogRead(analogInputs[i]);
     int val = map(reading, 0, 1023, 0, 255);
 
