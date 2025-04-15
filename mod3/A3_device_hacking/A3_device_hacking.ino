@@ -1,3 +1,5 @@
+#include <NewPing.h>
+
 // Analog input pins
 int input0 = A0; // Reading from cable connected to second arduino
 int input1 = A2; // potentiometer 1
