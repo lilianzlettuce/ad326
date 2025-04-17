@@ -29,7 +29,11 @@ void loop() {
   float distance = (duration * speed) / 2;
 
   // Print result (0 = outside set distance range)
-  Serial.print("Distance: ");
+  /*Serial.print("Distance: ");
   Serial.print(distance);
-  Serial.println("cm");
+  Serial.println("cm");*/
+
+  Serial.print("AVAL3_");
+  // Send value
+  Serial.println((int) distance);
 }
