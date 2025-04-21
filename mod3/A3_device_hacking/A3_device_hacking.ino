@@ -8,12 +8,14 @@ int input3 = A4; // pot 3
 
 int analogInputs[] = { A0, A2, A3, A4 };
 int numInputs = sizeof(analogInputs) / sizeof(analogInputs[0]);
+int lastAnalogVals[4] = {0};
 
 // Digital pins
 const int switchPin = 5;  // box switch
 const int ledPin = 13;    // box LED
 
 int switchState = 0;  // switch status
+int lastSwitchState = 0; // last switch status
 
 // Struct for sending data through serial
 struct Data {
@@ -34,10 +36,17 @@ void setup() {
 }
 
 void loop() {
+  /* Digital signals */
+
   // Read the state of the switch
   switchState = digitalRead(switchPin);
-  Serial.print("SVAL0_");
-  Serial.println(switchState);
+  if (switchState != lastSwitchState) {
+    // Send new state over serial if updated
+    Serial.print("SVAL0_");
+    Serial.println(switchState);
+
+    lastSwitchState = switchState;
+  }
 
   // Update LED based on switch state
   if (switchState == HIGH) {
@@ -48,19 +57,26 @@ void loop() {
     digitalWrite(ledPin, LOW);
   }
 
+  /* Analog signals */
+
   // Loop through all analog inputs
   for (int i = 0; i < numInputs; i++) {
     // Read each input, put in range 0 to 255
     int reading = analogRead(analogInputs[i]);
     int val = map(reading, 0, 1023, 0, 255);
 
-    // Prepend distinguishing id
-    Serial.print("AVAL");
-    Serial.print(i);
-    Serial.print("_");
+    // Update over serial if different from previous
+    if (val != lastAnalogVals[i]) {
+      // Prepend distinguishing id
+      Serial.print("AVAL");
+      Serial.print(i);
+      Serial.print("_");
 
-    // Send value
-    Serial.println(val);
+      // Send value
+      Serial.println(val);
+
+      lastAnalogVals[i] = val;
+    }
   }
 
   delay(100); // give the A2D converter a moment to catch up

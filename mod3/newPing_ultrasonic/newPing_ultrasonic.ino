@@ -21,7 +21,7 @@ void loop() {
   // Send ping, get distance in cm
   //int distance = sonar.ping_cm(); 
 
-  // Get duration in ms
+  // Get median duration in ms
   float duration = sonar.ping_median(5, MAX_DISTANCE);
 
   // Calculate distance using speed and time
