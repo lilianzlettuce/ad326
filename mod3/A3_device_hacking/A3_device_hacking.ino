@@ -1,5 +1,17 @@
 #include <NewPing.h>
 
+// Ultrasonic sensor vars
+#define TRIGGER_PIN 9
+#define ECHO_PIN 10
+#define MAX_DISTANCE 400 // max measurable distance (cm)
+
+// Create NewPing sonar object
+NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
+
+// Speed of sound = 0.0343 cm / microsecond
+const float speed = 0.0343;
+int lastDistanceVal = -1;
+
 // Analog input pins
 int input0 = A0; // Reading from cable connected to second arduino
 int input1 = A2; // potentiometer 1
@@ -8,14 +20,14 @@ int input3 = A4; // pot 3
 
 int analogInputs[] = { A0, A2, A3, A4 };
 int numInputs = sizeof(analogInputs) / sizeof(analogInputs[0]);
-int lastAnalogVals[4] = {0};
+int lastAnalogVals[4] = {-1};
 
 // Digital pins
 const int switchPin = 5;  // box switch
 const int ledPin = 13;    // box LED
 
 int switchState = 0;  // switch status
-int lastSwitchState = 0; // last switch status
+int lastSwitchState = -1; // last switch status
 
 // Struct for sending data through serial
 struct Data {
@@ -37,6 +49,21 @@ void setup() {
 
 void loop() {
   /* Digital signals */
+
+  // Get median duration in ms
+  float duration = sonar.ping_median(5, MAX_DISTANCE);
+
+  // Calculate distance using speed and time
+  // Halve to account for distance there and back
+  int distance = (int) (duration * speed) / 2;
+  int distanceVal = map(distance, 0, MAX_DISTANCE, 0, 255);
+  if (distanceVal != lastDistanceVal) {
+    // Send new state over serial if updated
+    Serial.print("DVAL0_");
+    Serial.println(distanceVal);
+
+    lastDistanceVal = distanceVal;
+  }
 
   // Read the state of the switch
   switchState = digitalRead(switchPin);
