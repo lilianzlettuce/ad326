@@ -1,6 +1,6 @@
 #include <NewPing.h>
 
-// Ultrasonic sensor vars
+/* Ultrasonic sensor vars */
 #define TRIGGER_PIN 9
 #define ECHO_PIN 10
 #define MAX_DISTANCE 400 // max measurable distance (cm)
@@ -11,6 +11,17 @@ NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 // Speed of sound = 0.0343 cm / microsecond
 const float speed = 0.0343;
 int lastDistanceVal = -1;
+
+
+/* Photocell vars */
+const int photoCellPin = A1; // input pin
+int lastLightVal = -1;
+
+// Test with serial output 
+// Find a good range for every new environment
+const int minLightVal = 4;
+const int maxLightVal = 1000;
+
 
 // Analog input pins
 int input0 = A0; // Reading from cable connected to second arduino
@@ -85,6 +96,16 @@ void loop() {
   }
 
   /* Analog signals */
+
+  // Read photocell light value
+  int lightReading = analogRead(photoCellPin);
+  int lightVal = map(lightReading, minLightVal, maxLightVal, 0, 255);
+  if (lightVal != lastLightVal) {
+    Serial.print("LVAL0_");
+    Serial.println(lightVal);
+
+    lastLightVal = lightVal;
+  }
 
   // Loop through all analog inputs
   for (int i = 0; i < numInputs; i++) {
