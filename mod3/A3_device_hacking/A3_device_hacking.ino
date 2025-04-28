@@ -113,6 +113,11 @@ void loop() {
     int reading = analogRead(analogInputs[i]);
     int val = map(reading, 0, 1023, 0, 255);
 
+    // Derive rotary switch position for 12 position switch (A3)
+    if (i == 2) {
+      val = ((float) val / 23) + 0.5; // round to nearest int
+    }
+
     // Update over serial if different from previous
     if (val != lastAnalogVals[i]) {
       // Prepend distinguishing id
