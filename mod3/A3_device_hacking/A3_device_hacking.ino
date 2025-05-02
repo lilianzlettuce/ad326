@@ -3,7 +3,7 @@
 /* Ultrasonic sensor vars */
 #define TRIGGER_PIN 9
 #define ECHO_PIN 10
-#define MAX_DISTANCE 400 // max measurable distance (cm)
+#define MAX_DISTANCE 250 // max measurable distance (cm)
 
 // Create NewPing sonar object
 NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
@@ -68,6 +68,7 @@ void loop() {
   // Halve to account for distance there and back
   int distance = (int) (duration * speed) / 2;
   int distanceVal = map(distance, 0, MAX_DISTANCE, 0, 255);
+  if (distanceVal == 0) distanceVal = 255; // default to largest value when invalid
   if (distanceVal != lastDistanceVal) {
     // Send new state over serial if updated
     Serial.print("DVAL0_");
