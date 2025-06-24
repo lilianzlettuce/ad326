@@ -19,8 +19,8 @@ int lastLightVal = -1;
 
 // Test with serial output 
 // Find a good range for every new environment
-const int minLightVal = 4;
-const int maxLightVal = 1000;
+const int minLightVal = 200;
+const int maxLightVal = 900;
 
 
 // Analog input pins
